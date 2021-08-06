@@ -27,17 +27,17 @@ app.get("/video/:video", async (req, res) => {
     }
     let info = await ytdl.getInfo(url);
     res.send("it worked");
-    // const title = slugify(info.videoDetails.title, {
-    //   replacement: "-",
-    //   remove: /[*+~.()'"!:@]/g,
-    //   lower: true,
-    //   strict: false,
-    // });
-    // res.header("Content-Disposition", `attachment; filename="${title}.mp4"`);
-    // ytdl(url, {
-    //   format: "mp4",
-    //   quality: "highest",
-    // }).pipe(res);
+    const title = slugify(info.videoDetails.title, {
+      replacement: "-",
+      remove: /[*+~.()'"!:@]/g,
+      lower: true,
+      strict: false,
+    });
+    res.header("Content-Disposition", `attachment; filename="${title}.mp4"`);
+    ytdl(url, {
+      format: "mp4",
+      quality: "highest",
+    }).pipe(res);
   } catch (err) {
     console.error(err);
   }
