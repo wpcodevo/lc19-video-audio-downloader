@@ -1,13 +1,14 @@
-import express from "express";
-import slugify from "slugify";
-import ytdl from "ytdl-core";
-import dotenv from "dotenv";
+const express = require("express");
+const slugify = require("slugify");
+const ytdl = require("ytdl-core");
+const dotenv = require("dotenv");
+const path = require("path");
 
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 const app = express();
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(
   PORT,
@@ -25,17 +26,18 @@ app.get("/video/:video", async (req, res) => {
       return res.sendStatus(400);
     }
     let info = await ytdl.getInfo(url);
-    const title = slugify(info.videoDetails.title, {
-      replacement: "-",
-      remove: /[*+~.()'"!:@]/g,
-      lower: true,
-      strict: false,
-    });
-    res.header("Content-Disposition", `attachment; filename="${title}.mp4"`);
-    ytdl(url, {
-      format: "mp4",
-      quality: "highest",
-    }).pipe(res);
+    res.send("it worked");
+    // const title = slugify(info.videoDetails.title, {
+    //   replacement: "-",
+    //   remove: /[*+~.()'"!:@]/g,
+    //   lower: true,
+    //   strict: false,
+    // });
+    // res.header("Content-Disposition", `attachment; filename="${title}.mp4"`);
+    // ytdl(url, {
+    //   format: "mp4",
+    //   quality: "highest",
+    // }).pipe(res);
   } catch (err) {
     console.error(err);
   }
