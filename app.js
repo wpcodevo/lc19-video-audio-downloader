@@ -7,7 +7,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 2500;
 const app = express();
-app.use(express.static("public"));
+app.use(express.static("."));
 
 app.listen(
   PORT,
